@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Btoo3 Egypt Café | Menu</title><link rel="stylesheet" href="style.css"></head>
+<body class="menu-page">
+  <main class="menu-wrap">
+    <img class="poster" src="menu.gif" alt="Btoo3 Egypt Café menu">
+    <nav class="action-grid" aria-label="Menu actions">
+      <button data-modal="orderModal">🛒 ORDER NOW</button>
+      <button data-modal="scheduleModal">◷ SCHEDULE YOUR ORDER</button>
+      <button data-modal="rateModal">☆ RATE US</button>
+      <button data-modal="commentModal">☏ COMMENT</button>
+    </nav>
+    <a class="back-link" href="index.html">← BACK TO INVITATION</a>
+  </main>
+  <audio id="bgMusic" src="bakery-music.mp3" loop preload="auto"></audio>
+  <button class="sound-toggle" id="soundToggle">♫ Music: Off</button>
+  <div class="modal" id="orderModal" role="dialog" aria-modal="true" aria-labelledby="orderTitle"><div class="modal-card"><button class="close" aria-label="Close">×</button><h2 id="orderTitle">Place Your Order</h2><p>Tell us what you would like from Btoo3 Egypt.</p><form class="local-form" data-kind="Order"><label>Your name<input required name="name" autocomplete="name" placeholder="Full name"></label><label>Your phone number<input required type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="e.g. +20 1XXXXXXXXX" pattern="[+0-9()\s-]{8,20}" title="Enter a valid phone number"></label><label>Order details<textarea required name="details" placeholder="Coffee, food, size, quantity…"></textarea></label><label>Pickup or delivery<select name="method"><option>Pickup</option><option>Delivery</option></select></label><button class="submit-btn">REVIEW ORDER</button></form></div></div>
+  <div class="modal" id="scheduleModal" role="dialog" aria-modal="true" aria-labelledby="scheduleTitle"><div class="modal-card"><button class="close" aria-label="Close">×</button><h2 id="scheduleTitle">Schedule Your Order</h2><p>Choose your preferred pickup time.</p><form class="local-form" data-kind="Scheduled order"><label>Your name<input required name="name" autocomplete="name" placeholder="Full name"></label><label>Your phone number<input required type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="e.g. +20 1XXXXXXXXX" pattern="[+0-9()\s-]{8,20}" title="Enter a valid phone number"></label><label>Order details<textarea required name="details" placeholder="What would you like?"></textarea></label><label>Pickup date<input required type="date" name="date"></label><label>Pickup time<input required type="time" name="time"></label><button class="submit-btn">REVIEW SCHEDULE</button></form></div></div>
+  <div class="modal" id="rateModal" role="dialog" aria-modal="true" aria-labelledby="rateTitle"><div class="modal-card"><button class="close" aria-label="Close">×</button><h2 id="rateTitle">Rate Your Experience</h2><p>How was your Btoo3 Egypt experience?</p><form class="local-form" data-kind="Rating"><div class="stars" role="radiogroup" aria-label="Choose a star rating"><label><input type="radio" name="rating" value="1" required><span>★</span></label><label><input type="radio" name="rating" value="2"><span>★</span></label><label><input type="radio" name="rating" value="3"><span>★</span></label><label><input type="radio" name="rating" value="4"><span>★</span></label><label><input type="radio" name="rating" value="5"><span>★</span></label></div><button class="submit-btn">SUBMIT RATING</button></form></div></div>
+  <div class="modal" id="commentModal" role="dialog" aria-modal="true" aria-labelledby="commentTitle"><div class="modal-card"><button class="close" aria-label="Close">×</button><h2 id="commentTitle">Leave a Comment</h2><p>We would love to hear your thoughts.</p><form class="local-form" data-kind="Comment"><label>Your name<input name="name" placeholder="Name (optional)"></label><label>Your comment<textarea required name="comment" placeholder="Write your feedback…"></textarea></label><button class="submit-btn">SUBMIT COMMENT</button></form></div></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+  const audio=document.getElementById('bgMusic'), sound=document.getElementById('soundToggle');
+  if(sessionStorage.getItem('btoo3Music')==='on'){audio.play().then(()=>sound.textContent='♫ Music: On').catch(()=>{});}
+  sound.addEventListener('click',()=>{if(audio.paused){audio.play().then(()=>sound.textContent='♫ Music: On').catch(()=>{});sessionStorage.setItem('btoo3Music','on')}else{audio.pause();sound.textContent='♫ Music: Off';sessionStorage.setItem('btoo3Music','off')}});
+  document.querySelectorAll('[data-modal]').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.modal).classList.add('show')));
+  document.querySelectorAll('.close').forEach(b=>b.addEventListener('click',()=>b.closest('.modal').classList.remove('show')));
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.show').forEach(m=>m.classList.remove('show'))});
+  const toast=document.getElementById('toast');
+  document.querySelectorAll('.local-form').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();const kind=form.dataset.kind;const data=new FormData(form);let msg=kind+' details captured in this preview. To receive real orders, ratings and comments online, connect a business email, WhatsApp number or form backend.';if(kind==='Order'||kind==='Scheduled order'){msg='Thank you, '+(data.get('name')||'')+'! Your phone number: '+(data.get('phone')||'')+'. Your '+kind.toLowerCase()+' has been prepared in this preview, but has not been sent to the café yet. Connect Btoo3 Egypt’s WhatsApp number or an order service to receive it.';}if(kind==='Rating'){const r=new FormData(form).get('rating');msg='Thank you for rating Btoo3 Egypt '+r+'/5! Connect a review service to publish this rating.';}toast.textContent=msg;toast.classList.add('show');form.closest('.modal').classList.remove('show');setTimeout(()=>toast.classList.remove('show'),6500);form.reset();}));
+  </script>
+</body></html>

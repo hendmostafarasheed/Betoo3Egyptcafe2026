@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Btoo3 Egypt Café | Grand Opening</title><link rel="stylesheet" href="style.css"></head>
+<body class="landing">
+  <main class="invite-wrap">
+    <img class="poster" src="invitation.gif" alt="Btoo3 Egypt Café grand opening invitation">
+    <button class="open-menu" id="openMenu">OPEN MENU <span>↗</span></button>
+  </main>
+  <audio id="bgMusic" src="bakery-music.mp3" loop preload="auto"></audio>
+  <button class="sound-toggle" id="soundToggle" aria-label="Toggle music">♫ Music: Off</button>
+  <script>
+  const audio=document.getElementById('bgMusic'), sound=document.getElementById('soundToggle');
+  function startMusic(){audio.play().then(()=>{sound.textContent='♫ Music: On'}).catch(()=>{sound.textContent='♫ Tap for music'});}
+  document.getElementById('openMenu').addEventListener('click',()=>{startMusic();sessionStorage.setItem('btoo3Music','on');location.href='menu.html';});
+  sound.addEventListener('click',()=>{if(audio.paused){startMusic()}else{audio.pause();sound.textContent='♫ Music: Off';}});
+  </script>
+</body></html>
